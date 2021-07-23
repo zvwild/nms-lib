@@ -1,6 +1,7 @@
 package dev.zvwild.nmslib.api;
 
 import dev.zvwild.nmslib.api.packet.PacketTransmitter;
+import dev.zvwild.nmslib.impl.packet.$v1_16_R3PacketTransmitter;
 import dev.zvwild.nmslib.impl.packet.$v1_8_R3PacketTransmitter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -45,6 +46,10 @@ public final class NMS
         {
             case v1_8_R3:
                 packetTransmitter = new $v1_8_R3PacketTransmitter();
+                break;
+
+            case v1_16_R3:
+                packetTransmitter = new $v1_16_R3PacketTransmitter();
                 break;
 
             default:
@@ -95,7 +100,8 @@ public final class NMS
     public enum Version
     {
 
-        v1_8_R3;
+        v1_8_R3,
+        v1_16_R3;
 
         private static Version fromString(String versionString)
         {
