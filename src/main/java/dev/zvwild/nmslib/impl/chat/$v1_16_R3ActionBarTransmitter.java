@@ -20,7 +20,6 @@ public final class $v1_16_R3ActionBarTransmitter implements ActionBarTransmitter
 
     public $v1_16_R3ActionBarTransmitter()
     {
-
         Constructor<?> packetConstructor = null;
         Method chatSerializerSerializeMethod = null;
         Object gameInfoVariant = null;
