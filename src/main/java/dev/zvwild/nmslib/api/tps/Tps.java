@@ -26,6 +26,7 @@ public final class Tps
 
             default:
                 PROVIDER = null;
+                break;
         }
     }
 
