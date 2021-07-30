@@ -8,6 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+/**
+ * Implementation class, don't use directly
+ */
 public final class $v1_16_R3ActionBarTransmitter implements ActionBarTransmitter
 {
 

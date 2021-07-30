@@ -6,6 +6,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Implementation class, don't use directly
+ */
 public final class $v1_16_R3PacketTransmitter implements PacketTransmitter
 {
 

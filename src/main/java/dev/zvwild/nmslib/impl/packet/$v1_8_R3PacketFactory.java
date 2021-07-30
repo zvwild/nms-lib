@@ -8,6 +8,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 
+/**
+ * Implementation class, don't use directly
+ */
 public final class $v1_8_R3PacketFactory implements PacketFactory
 {
 
