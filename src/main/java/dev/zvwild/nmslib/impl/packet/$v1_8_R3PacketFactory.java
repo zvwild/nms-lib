@@ -2,10 +2,7 @@ package dev.zvwild.nmslib.impl.packet;
 
 import dev.zvwild.nmslib.api.packet.PacketFactory;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 import java.util.EnumMap;
 
 /**
@@ -14,9 +11,17 @@ import java.util.EnumMap;
 public final class $v1_8_R3PacketFactory implements PacketFactory
 {
 
+    private static final String ONLY_TEXT_FORMAT = "{\"text\": \"%s\"}";
+
     private final Constructor<?> packetPlayOutEntityDestroyConstructor;
     private final Constructor<?> packetPlayOutPlayerInfoConstructor;
     private final Constructor<?> packetPlayOutNamedEntitySpawnConstructor;
+    private final Constructor<?> packetPlayOutPlayerListHeaderFooterConstructor;
+
+    // Actually, "b"
+    private final Field packetPlayOutPlayerListHeaderFooterFooterField;
+
+    private final Method chatSerializerSerialize;
 
     private final EnumMap<PlayerInfoAction, Object> playerInfoActionMappings = new EnumMap<>(PlayerInfoAction.class);
     private final Class<?> entityPlayerClass;
@@ -28,6 +33,11 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
         Constructor<?> packetPlayOutEntityDestroyConstructor = null;
         Constructor<?> packetPlayOutPlayerInfoConstructor = null;
         Constructor<?> packetPlayOutNamedEntitySpawnConstructor = null;
+        Constructor<?> packetPlayOutPlayerListHeaderFooterConstructor = null;
+
+        Field packetPlayOutPlayerListHeaderFooterFooterField = null;
+
+        Method chatSerializerSerialize = null;
 
         try
         {
@@ -61,6 +71,21 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
             packetPlayOutNamedEntitySpawnConstructor = Class
                     .forName("net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn")
                     .getDeclaredConstructor(entityHumanClass);
+
+            Class<?> iChatBaseComponentClass = Class
+                    .forName("net.minecraft.server.v1_8_R3.IChatBaseComponent");
+
+            Class<?> packetPlayOutPlayerListHeaderFooterClass = Class
+                    .forName("net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter");
+
+            packetPlayOutPlayerListHeaderFooterConstructor = packetPlayOutPlayerListHeaderFooterClass
+                    .getDeclaredConstructor(iChatBaseComponentClass);
+
+            chatSerializerSerialize = Class.forName("net.minecraft.server.v1_8_R3.IChatBaseComponent$ChatSerializer")
+                    .getDeclaredMethod("a", String.class);
+
+            packetPlayOutPlayerListHeaderFooterFooterField = packetPlayOutPlayerListHeaderFooterClass
+                    .getDeclaredField("b");
         } catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | IllegalAccessException e)
         {
             e.printStackTrace();
@@ -69,7 +94,30 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
         this.packetPlayOutEntityDestroyConstructor = packetPlayOutEntityDestroyConstructor;
         this.packetPlayOutPlayerInfoConstructor = packetPlayOutPlayerInfoConstructor;
         this.packetPlayOutNamedEntitySpawnConstructor = packetPlayOutNamedEntitySpawnConstructor;
+        this.packetPlayOutPlayerListHeaderFooterConstructor = packetPlayOutPlayerListHeaderFooterConstructor;
+
         this.entityPlayerClass = entityPlayerClass;
+
+        this.packetPlayOutPlayerListHeaderFooterFooterField = packetPlayOutPlayerListHeaderFooterFooterField;
+
+        this.chatSerializerSerialize = chatSerializerSerialize;
+    }
+
+    private Object createChatComponentRaw(String raw)
+    {
+        try
+        {
+            return chatSerializerSerialize.invoke(null, raw);
+        } catch (IllegalAccessException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Object createChatComponent(String text)
+    {
+        return createChatComponentRaw(String.format(ONLY_TEXT_FORMAT, text));
     }
 
     @Override
@@ -110,6 +158,28 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
         try
         {
             return packetPlayOutNamedEntitySpawnConstructor.newInstance(handle);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Object createPacketPlayOutPlayerListHeaderFooter(String header, String footer)
+    {
+        Object headerComponent = createChatComponent(header);
+        try
+        {
+            Object packet =  packetPlayOutPlayerListHeaderFooterConstructor.newInstance(headerComponent);
+
+            if (footer != null)
+            {
+                Object footerComponent = createChatComponent(footer);
+                packetPlayOutPlayerListHeaderFooterFooterField.set(packet, footerComponent);
+            }
+
+            return packet;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();
