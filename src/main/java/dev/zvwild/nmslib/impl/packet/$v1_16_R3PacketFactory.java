@@ -74,12 +74,12 @@ public final class $v1_16_R3PacketFactory implements PacketFactory
                     .getDeclaredConstructor(entityHumanClass);
 
             Class<?> packetPlayOutPlayerListHeaderFooterClass = Class
-                    .forName("net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter");
+                    .forName("net.minecraft.server.v1_16_R3.PacketPlayOutPlayerListHeaderFooter");
 
             packetPlayOutPlayerListHeaderFooterConstructor = packetPlayOutPlayerListHeaderFooterClass
                     .getDeclaredConstructor();
 
-            chatSerializerSerialize = Class.forName("net.minecraft.server.v1_8_R3.IChatBaseComponent$ChatSerializer")
+            chatSerializerSerialize = Class.forName("net.minecraft.server.v1_16_R3.IChatBaseComponent$ChatSerializer")
                     .getDeclaredMethod("a", String.class);
 
             packetPlayOutPlayerListHeaderFooterHeaderField = packetPlayOutPlayerListHeaderFooterClass
