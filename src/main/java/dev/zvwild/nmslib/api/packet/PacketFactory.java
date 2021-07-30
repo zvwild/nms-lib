@@ -1,0 +1,43 @@
+package dev.zvwild.nmslib.api.packet;
+
+/**
+ * Version independent factory for packets
+ */
+public interface PacketFactory
+{
+
+    /**
+     * Create an instance of PacketPlayOutEntityDestroy
+     *
+     * @param entityId id of the entity to destroy
+     * @return the packet
+     */
+    Object createPacketPlayOutEntityDestroy(int entityId);
+
+    /**
+     * Create an instance of PacketPlayOutPlayerInfo
+     *
+     * @param action the action to execute
+     * @param handle the player on which the action should be performed
+     * @return the packet
+     */
+    Object createPacketPlayOutPlayerInfo(PlayerInfoAction action, Object handle);
+
+    /**
+     * Create an instance of PacketPlayOutNamedEntitySpawn
+     *
+     * @param handle the player for whom to create the packet
+     * @return the packet
+     */
+    Object createPacketPlayOutNamedEntitySpawn(Object handle);
+
+    /**
+     * Wrapper around EnumPlayerInfoAction, intended to be used with {@link #createPacketPlayOutPlayerInfo(PlayerInfoAction, Object)}
+     */
+    enum PlayerInfoAction
+    {
+        ADD_PLAYER,
+        REMOVE_PLAYER
+    }
+
+}

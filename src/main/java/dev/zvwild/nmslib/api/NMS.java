@@ -1,7 +1,10 @@
 package dev.zvwild.nmslib.api;
 
+import dev.zvwild.nmslib.api.packet.PacketFactory;
 import dev.zvwild.nmslib.api.packet.PacketTransmitter;
+import dev.zvwild.nmslib.impl.packet.$v1_16_R3PacketFactory;
 import dev.zvwild.nmslib.impl.packet.$v1_16_R3PacketTransmitter;
+import dev.zvwild.nmslib.impl.packet.$v1_8_R3PacketFactory;
 import dev.zvwild.nmslib.impl.packet.$v1_8_R3PacketTransmitter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +19,7 @@ public final class NMS
     private static final String VERSION_STRING;
     private static final Version VERSION;
     private static final PacketTransmitter PACKET_TRANSMITTER;
+    private static final PacketFactory PACKET_FACTORY;
 
     static
     {
@@ -42,14 +46,17 @@ public final class NMS
         VERSION = Version.fromString(versionString);
 
         PacketTransmitter packetTransmitter = null;
+        PacketFactory packetFactory = null;
         switch (VERSION)
         {
             case v1_8_R3:
                 packetTransmitter = new $v1_8_R3PacketTransmitter();
+                packetFactory = new $v1_8_R3PacketFactory();
                 break;
 
             case v1_16_R3:
                 packetTransmitter = new $v1_16_R3PacketTransmitter();
+                packetFactory = new $v1_16_R3PacketFactory();
                 break;
 
             default:
@@ -57,6 +64,7 @@ public final class NMS
         }
 
         PACKET_TRANSMITTER = packetTransmitter;
+        PACKET_FACTORY = packetFactory;
     }
 
     private NMS()
@@ -92,6 +100,16 @@ public final class NMS
     public static PacketTransmitter getPacketTransmitter()
     {
         return PACKET_TRANSMITTER;
+    }
+
+    /**
+     * Get a packet factory for this version
+     *
+     * @return the packet factory
+     */
+    public static PacketFactory getPacketFactory()
+    {
+        return PACKET_FACTORY;
     }
 
     /**
