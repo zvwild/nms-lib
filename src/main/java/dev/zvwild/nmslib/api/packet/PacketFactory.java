@@ -18,10 +18,10 @@ public interface PacketFactory
      * Create an instance of PacketPlayOutPlayerInfo
      *
      * @param action the action to execute
-     * @param handle the player on which the action should be performed
+     * @param handles the players on which the action should be performed
      * @return the packet
      */
-    Object createPacketPlayOutPlayerInfo(PlayerInfoAction action, Object handle);
+    Object createPacketPlayOutPlayerInfo(PlayerInfoAction action, Object... handles);
 
     /**
      * Create an instance of PacketPlayOutNamedEntitySpawn
@@ -32,7 +32,7 @@ public interface PacketFactory
     Object createPacketPlayOutNamedEntitySpawn(Object handle);
 
     /**
-     * Wrapper around EnumPlayerInfoAction, intended to be used with {@link #createPacketPlayOutPlayerInfo(PlayerInfoAction, Object)}
+     * Wrapper around EnumPlayerInfoAction, intended to be used with {@link #createPacketPlayOutPlayerInfo(PlayerInfoAction, Object[])}
      */
     enum PlayerInfoAction
     {
