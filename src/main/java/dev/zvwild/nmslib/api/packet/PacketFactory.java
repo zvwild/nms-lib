@@ -9,10 +9,10 @@ public interface PacketFactory
     /**
      * Create an instance of PacketPlayOutEntityDestroy
      *
-     * @param entityId id of the entity to destroy
+     * @param entityIds the entities to destroy
      * @return the packet
      */
-    Object createPacketPlayOutEntityDestroy(int entityId);
+    Object createPacketPlayOutEntityDestroy(int... entityIds);
 
     /**
      * Create an instance of PacketPlayOutPlayerInfo

@@ -26,7 +26,7 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
         {
             packetPlayOutEntityDestroyConstructor = Class
                     .forName("net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy")
-                    .getDeclaredConstructor(int.class);
+                    .getDeclaredConstructor(int[].class);
 
             Class<?> enumPlayerInfoActionClass = Class
                     .forName("net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
@@ -59,11 +59,11 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
     }
 
     @Override
-    public Object createPacketPlayOutEntityDestroy(int entityId)
+    public Object createPacketPlayOutEntityDestroy(int... entityIds)
     {
         try
         {
-            return packetPlayOutEntityDestroyConstructor.newInstance(entityId);
+            return packetPlayOutEntityDestroyConstructor.newInstance((Object) entityIds);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();

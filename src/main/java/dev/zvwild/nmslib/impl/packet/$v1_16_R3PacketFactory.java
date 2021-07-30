@@ -59,11 +59,11 @@ public final class $v1_16_R3PacketFactory implements PacketFactory
     }
 
     @Override
-    public Object createPacketPlayOutEntityDestroy(int entityId)
+    public Object createPacketPlayOutEntityDestroy(int... entityIds)
     {
         try
         {
-            return packetPlayOutEntityDestroyConstructor.newInstance(entityId);
+            return packetPlayOutEntityDestroyConstructor.newInstance((Object) entityIds);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();
