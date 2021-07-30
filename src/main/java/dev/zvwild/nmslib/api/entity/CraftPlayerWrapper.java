@@ -11,37 +11,54 @@ import java.lang.reflect.Method;
 public final class CraftPlayerWrapper
 {
 
-    private final Object wrapped;
+    private static Methods methods;
 
-    private final Method getHandleMethod;
-    private final Method getProfileMethod;
+    private final Object wrapped;
 
     private CraftPlayerWrapper(Object toWrap)
     {
-        Class<?> craftPlayerClass = toWrap.getClass();
-
-        Method getHandleMethod = null;
-        Method getProfileMethod = null;
-
-        try
+        if (methods == null)
         {
-            getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
-            getProfileMethod = craftPlayerClass.getDeclaredMethod("getProfile");
-        } catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
+            Class<?> craftPlayerClass = toWrap.getClass();
+
+            Method getHandleMethod = null;
+            Method getProfileMethod = null;
+
+            try
+            {
+                getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
+                getProfileMethod = craftPlayerClass.getDeclaredMethod("getProfile");
+            } catch (NoSuchMethodException e)
+            {
+                e.printStackTrace();
+            }
+
+            methods = new Methods(getHandleMethod, getProfileMethod);
         }
 
         this.wrapped = toWrap;
-        this.getHandleMethod = getHandleMethod;
-        this.getProfileMethod = getProfileMethod;
     }
 
+    /**
+     * Get the internal wrapped object
+     *
+     * @return the wrapped object
+     */
+    public Object getWrapped()
+    {
+        return wrapped;
+    }
+
+    /**
+     * Get the nms handle (EntityPlayer)
+     *
+     * @return the minecraft server handle
+     */
     public Object getHandle()
     {
         try
         {
-            return getHandleMethod.invoke(wrapped);
+            return methods.getHandle.invoke(wrapped);
         } catch (IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();
@@ -49,11 +66,16 @@ public final class CraftPlayerWrapper
         }
     }
 
+    /**
+     * Get the mojang GameProfile
+     *
+     * @return this players profile
+     */
     public Object getProfile()
     {
         try
         {
-            return getProfileMethod.invoke(wrapped);
+            return methods.getProfile.invoke(wrapped);
         } catch (IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();
@@ -61,11 +83,22 @@ public final class CraftPlayerWrapper
         }
     }
 
+    /**
+     * Convenience method to send a packet
+     *
+     * @param packet the packet to send
+     */
     public void sendPacket(Object packet)
     {
         NMS.getPacketTransmitter().transmitPacket(wrapped, packet);
     }
 
+    /**
+     * Wrap an instance of Player and check whether it is safe
+     *
+     * @param toWrap the player to wrap
+     * @return the wrapped player
+     */
     public static CraftPlayerWrapper wrap(Object toWrap)
     {
         if (!toWrap.getClass().getSimpleName().equals("CraftPlayer"))
@@ -76,9 +109,29 @@ public final class CraftPlayerWrapper
         return new CraftPlayerWrapper(toWrap);
     }
 
+    /**
+     * Wrap an instance of Player but without any safety checks
+     *
+     * @param toWrap the player to wrap
+     * @return the unchecked wrapped player
+     */
     public static CraftPlayerWrapper unsafe(Object toWrap)
     {
         return new CraftPlayerWrapper(toWrap);
+    }
+
+    private static final class Methods
+    {
+
+        public final Method getHandle;
+        public final Method getProfile;
+
+        public Methods(Method getHandle, Method getProfile)
+        {
+            this.getHandle = getHandle;
+            this.getProfile = getProfile;
+        }
+
     }
 
 }
