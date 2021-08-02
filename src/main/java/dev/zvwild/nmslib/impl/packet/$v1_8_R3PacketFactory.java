@@ -86,6 +86,7 @@ public final class $v1_8_R3PacketFactory implements PacketFactory
 
             packetPlayOutPlayerListHeaderFooterFooterField = packetPlayOutPlayerListHeaderFooterClass
                     .getDeclaredField("b");
+            packetPlayOutPlayerListHeaderFooterFooterField.setAccessible(true);
         } catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | IllegalAccessException e)
         {
             e.printStackTrace();
