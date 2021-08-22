@@ -3,8 +3,7 @@ package dev.zvwild.nmslib.api.chat;
 /**
  * Version independent action bar functionality
  */
-public interface ActionBarTransmitter
-{
+public interface ActionBarTransmitter {
 
     /**
      * Send an action bar to a player

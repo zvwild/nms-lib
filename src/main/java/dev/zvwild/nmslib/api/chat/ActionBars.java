@@ -7,17 +7,14 @@ import dev.zvwild.nmslib.impl.chat.$v1_8_R3ActionBarTransmitter;
 /**
  * Supplier for action bar functionality
  */
-public final class ActionBars
-{
+public final class ActionBars {
 
     private static final ActionBarTransmitter TRANSMITTER;
 
-    static
-    {
+    static {
         ActionBarTransmitter transmitter = null;
 
-        switch (NMS.getVersion())
-        {
+        switch (NMS.getVersion()) {
             case v1_8_R3:
                 transmitter = new $v1_8_R3ActionBarTransmitter();
                 break;
@@ -33,8 +30,7 @@ public final class ActionBars
         TRANSMITTER = transmitter;
     }
 
-    private ActionBars()
-    {
+    private ActionBars() {
     }
 
     /**
@@ -42,8 +38,7 @@ public final class ActionBars
      *
      * @return the appropriate {@link ActionBarTransmitter} for this server version
      */
-    public static ActionBarTransmitter getTransmitter()
-    {
+    public static ActionBarTransmitter getTransmitter() {
         return TRANSMITTER;
     }
 

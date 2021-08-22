@@ -7,15 +7,12 @@ import dev.zvwild.nmslib.impl.tps.$v_1_8_R3TpsProvider;
 /**
  * Supplier for tps-related functionality
  */
-public final class Tps
-{
+public final class Tps {
 
     private static final TpsProvider PROVIDER;
 
-    static
-    {
-        switch (NMS.getVersion())
-        {
+    static {
+        switch (NMS.getVersion()) {
             case v1_8_R3:
                 PROVIDER = new $v_1_8_R3TpsProvider();
                 break;
@@ -30,8 +27,7 @@ public final class Tps
         }
     }
 
-    private Tps()
-    {
+    private Tps() {
     }
 
     /**
@@ -39,8 +35,7 @@ public final class Tps
      *
      * @return the tps provider
      */
-    public static TpsProvider getProvider()
-    {
+    public static TpsProvider getProvider() {
         return PROVIDER;
     }
 

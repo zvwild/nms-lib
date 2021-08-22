@@ -3,8 +3,7 @@ package dev.zvwild.nmslib.api.packet;
 /**
  * Version independent factory for packets
  */
-public interface PacketFactory
-{
+public interface PacketFactory {
 
     /**
      * Create an instance of PacketPlayOutEntityDestroy
@@ -43,8 +42,7 @@ public interface PacketFactory
     /**
      * Wrapper around EnumPlayerInfoAction, intended to be used with {@link #createPacketPlayOutPlayerInfo(PlayerInfoAction, Object[])}
      */
-    enum PlayerInfoAction
-    {
+    enum PlayerInfoAction {
         ADD_PLAYER,
         REMOVE_PLAYER
     }

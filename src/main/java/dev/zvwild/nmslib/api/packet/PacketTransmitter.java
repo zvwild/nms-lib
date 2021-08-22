@@ -3,8 +3,7 @@ package dev.zvwild.nmslib.api.packet;
 /**
  * Send a packet without any information about the server version
  */
-public interface PacketTransmitter
-{
+public interface PacketTransmitter {
 
     /**
      * Send a packet

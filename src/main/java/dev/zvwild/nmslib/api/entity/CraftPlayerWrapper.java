@@ -8,28 +8,23 @@ import java.lang.reflect.Method;
 /**
  * Wrapper for important CraftPlayer functionality
  */
-public final class CraftPlayerWrapper
-{
+public final class CraftPlayerWrapper {
 
     private static Methods methods;
 
     private final Object wrapped;
 
-    private CraftPlayerWrapper(Object toWrap)
-    {
-        if (methods == null)
-        {
+    private CraftPlayerWrapper(Object toWrap) {
+        if (methods == null) {
             Class<?> craftPlayerClass = toWrap.getClass();
 
             Method getHandleMethod = null;
             Method getProfileMethod = null;
 
-            try
-            {
+            try {
                 getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
                 getProfileMethod = craftPlayerClass.getDeclaredMethod("getProfile");
-            } catch (NoSuchMethodException e)
-            {
+            } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
 
@@ -44,8 +39,7 @@ public final class CraftPlayerWrapper
      *
      * @return the wrapped object
      */
-    public Object getWrapped()
-    {
+    public Object getWrapped() {
         return wrapped;
     }
 
@@ -54,13 +48,10 @@ public final class CraftPlayerWrapper
      *
      * @return the minecraft server handle
      */
-    public Object getHandle()
-    {
-        try
-        {
+    public Object getHandle() {
+        try {
             return methods.getHandle.invoke(wrapped);
-        } catch (IllegalAccessException | InvocationTargetException e)
-        {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
         }
@@ -71,13 +62,10 @@ public final class CraftPlayerWrapper
      *
      * @return this players profile
      */
-    public Object getProfile()
-    {
-        try
-        {
+    public Object getProfile() {
+        try {
             return methods.getProfile.invoke(wrapped);
-        } catch (IllegalAccessException | InvocationTargetException e)
-        {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
         }
@@ -88,8 +76,7 @@ public final class CraftPlayerWrapper
      *
      * @param packet the packet to send
      */
-    public void sendPacket(Object packet)
-    {
+    public void sendPacket(Object packet) {
         NMS.getPacketTransmitter().transmitPacket(wrapped, packet);
     }
 
@@ -99,10 +86,8 @@ public final class CraftPlayerWrapper
      * @param toWrap the player to wrap
      * @return the wrapped player
      */
-    public static CraftPlayerWrapper wrap(Object toWrap)
-    {
-        if (!toWrap.getClass().getSimpleName().equals("CraftPlayer"))
-        {
+    public static CraftPlayerWrapper wrap(Object toWrap) {
+        if (!toWrap.getClass().getSimpleName().equals("CraftPlayer")) {
             throw new IllegalArgumentException(toWrap.getClass().getSimpleName() + " is not a CraftPlayer");
         }
 
@@ -115,19 +100,16 @@ public final class CraftPlayerWrapper
      * @param toWrap the player to wrap
      * @return the unchecked wrapped player
      */
-    public static CraftPlayerWrapper unsafe(Object toWrap)
-    {
+    public static CraftPlayerWrapper unsafe(Object toWrap) {
         return new CraftPlayerWrapper(toWrap);
     }
 
-    private static final class Methods
-    {
+    private static final class Methods {
 
         public final Method getHandle;
         public final Method getProfile;
 
-        public Methods(Method getHandle, Method getProfile)
-        {
+        public Methods(Method getHandle, Method getProfile) {
             this.getHandle = getHandle;
             this.getProfile = getProfile;
         }
