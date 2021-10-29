@@ -4,6 +4,8 @@ import dev.zvwild.nmslib.api.packet.PacketFactory;
 import dev.zvwild.nmslib.api.packet.PacketTransmitter;
 import dev.zvwild.nmslib.impl.packet.$v1_16_R3PacketFactory;
 import dev.zvwild.nmslib.impl.packet.$v1_16_R3PacketTransmitter;
+import dev.zvwild.nmslib.impl.packet.$v1_17_R1PacketFactory;
+import dev.zvwild.nmslib.impl.packet.$v1_17_R1PacketTransmitter;
 import dev.zvwild.nmslib.impl.packet.$v1_8_R3PacketFactory;
 import dev.zvwild.nmslib.impl.packet.$v1_8_R3PacketTransmitter;
 
@@ -52,6 +54,11 @@ public final class NMS {
             case v1_16_R3:
                 packetTransmitter = new $v1_16_R3PacketTransmitter();
                 packetFactory = new $v1_16_R3PacketFactory();
+                break;
+
+            case v1_17_R3:
+                packetTransmitter = new $v1_17_R1PacketTransmitter();
+                packetFactory = new $v1_17_R1PacketFactory();
                 break;
 
             default:
@@ -108,7 +115,8 @@ public final class NMS {
     public enum Version {
 
         v1_8_R3,
-        v1_16_R3;
+        v1_16_R3,
+        v1_17_R3;
 
         private static Version fromString(String versionString) {
             return valueOf(versionString);
