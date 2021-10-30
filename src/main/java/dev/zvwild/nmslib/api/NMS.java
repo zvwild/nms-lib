@@ -56,7 +56,7 @@ public final class NMS {
                 packetFactory = new $v1_16_R3PacketFactory();
                 break;
 
-            case v1_17_R3:
+            case v1_17_R1:
                 packetTransmitter = new $v1_17_R1PacketTransmitter();
                 packetFactory = new $v1_17_R1PacketFactory();
                 break;
@@ -116,7 +116,7 @@ public final class NMS {
 
         v1_8_R3,
         v1_16_R3,
-        v1_17_R3;
+        v1_17_R1;
 
         private static Version fromString(String versionString) {
             return valueOf(versionString);

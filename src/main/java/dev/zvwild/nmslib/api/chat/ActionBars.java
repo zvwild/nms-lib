@@ -2,6 +2,7 @@ package dev.zvwild.nmslib.api.chat;
 
 import dev.zvwild.nmslib.api.NMS;
 import dev.zvwild.nmslib.impl.chat.$v1_16_R3ActionBarTransmitter;
+import dev.zvwild.nmslib.impl.chat.$v1_17_R1ActionBarTransmitter;
 import dev.zvwild.nmslib.impl.chat.$v1_8_R3ActionBarTransmitter;
 
 /**
@@ -21,6 +22,10 @@ public final class ActionBars {
 
             case v1_16_R3:
                 transmitter = new $v1_16_R3ActionBarTransmitter();
+                break;
+
+            case v1_17_R1:
+                transmitter = new $v1_17_R1ActionBarTransmitter();
                 break;
 
             default:

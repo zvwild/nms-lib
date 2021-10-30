@@ -50,11 +50,8 @@ public final class $v1_17_R1PacketFactory implements PacketFactory {
             Class<?> enumPlayerInfoActionClass = Class
                     .forName("net.minecraft.network.protocol.game.PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
 
-            for (PlayerInfoAction playerInfoAction : PlayerInfoAction.values()) {
-                Field enumPlayerInfoActionVariantField = enumPlayerInfoActionClass
-                        .getDeclaredField(playerInfoAction.name());
-                playerInfoActionMappings.put(playerInfoAction, enumPlayerInfoActionVariantField.get(null));
-            }
+            playerInfoActionMappings.put(PlayerInfoAction.ADD_PLAYER, enumPlayerInfoActionClass.getDeclaredField("a").get(null));
+            playerInfoActionMappings.put(PlayerInfoAction.REMOVE_PLAYER, enumPlayerInfoActionClass.getDeclaredField("e").get(null));
 
             Class<?> entityHumanClass = Class
                     .forName("net.minecraft.world.entity.player.EntityHuman");

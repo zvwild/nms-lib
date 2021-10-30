@@ -34,7 +34,7 @@ public final class $v1_17_R1ActionBarTransmitter implements ActionBarTransmitter
                             UUID.class
                     );
 
-            gameInfoVariant = chatMessageTypeClass.getDeclaredField("GAME_INFO").get(null);
+            gameInfoVariant = chatMessageTypeClass.getDeclaredField("c").get(null);
 
             chatSerializerSerializeMethod = Class.forName("net.minecraft.network.chat.IChatBaseComponent$ChatSerializer")
                     .getDeclaredMethod("a", String.class);

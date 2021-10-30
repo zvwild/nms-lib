@@ -25,10 +25,10 @@ public final class $v1_17_R1PacketTransmitter implements PacketTransmitter {
             getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
 
             Class<?> entityPlayerClass = Class.forName("net.minecraft.server.level.EntityPlayer");
-            playerConnectionField = entityPlayerClass.getDeclaredField("playerConnection");
+            playerConnectionField = entityPlayerClass.getDeclaredField("b");
 
             Class<?> playerConnectionClass = Class.forName("net.minecraft.server.network.PlayerConnection");
-            sendPacketMethod = playerConnectionClass.getDeclaredMethod("sendPacket", Class.forName("net.minecraft.server.v1_16_R3.Packet"));
+            sendPacketMethod = playerConnectionClass.getDeclaredMethod("sendPacket", Class.forName("net.minecraft.network.protocol.Packet"));
         } catch (ClassNotFoundException | NoSuchMethodException | NoSuchFieldException e) {
             e.printStackTrace();
         }
