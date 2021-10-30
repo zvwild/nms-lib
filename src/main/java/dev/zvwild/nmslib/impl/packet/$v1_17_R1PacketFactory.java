@@ -21,9 +21,6 @@ public final class $v1_17_R1PacketFactory implements PacketFactory {
     private final Constructor<?> packetPlayOutNamedEntitySpawnConstructor;
     private final Constructor<?> packetPlayOutPlayerListHeaderFooterConstructor;
 
-    private final Field packetPlayOutPlayerListHeaderFooterHeaderField;
-    private final Field packetPlayOutPlayerListHeaderFooterFooterField;
-
     private final Method chatSerializerSerialize;
 
     private final EnumMap<PlayerInfoAction, Object> playerInfoActionMappings = new EnumMap<>(PlayerInfoAction.class);
@@ -73,19 +70,13 @@ public final class $v1_17_R1PacketFactory implements PacketFactory {
             Class<?> packetPlayOutPlayerListHeaderFooterClass = Class
                     .forName("net.minecraft.network.protocol.game.PacketPlayOutPlayerListHeaderFooter");
 
+            Class<?> iChatBaseComponentClass = Class.forName("net.minecraft.network.chat.IChatBaseComponent");
+
             packetPlayOutPlayerListHeaderFooterConstructor = packetPlayOutPlayerListHeaderFooterClass
-                    .getDeclaredConstructor();
+                    .getDeclaredConstructor(iChatBaseComponentClass, iChatBaseComponentClass);
 
             chatSerializerSerialize = Class.forName("net.minecraft.network.chat.IChatBaseComponent$ChatSerializer")
                     .getDeclaredMethod("a", String.class);
-
-            packetPlayOutPlayerListHeaderFooterHeaderField = packetPlayOutPlayerListHeaderFooterClass
-                    .getDeclaredField("header");
-            packetPlayOutPlayerListHeaderFooterHeaderField.setAccessible(true);
-
-            packetPlayOutPlayerListHeaderFooterFooterField = packetPlayOutPlayerListHeaderFooterClass
-                    .getDeclaredField("footer");
-            packetPlayOutPlayerListHeaderFooterFooterField.setAccessible(true);
         } catch (NoSuchMethodException | ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -95,9 +86,6 @@ public final class $v1_17_R1PacketFactory implements PacketFactory {
         this.packetPlayOutNamedEntitySpawnConstructor = packetPlayOutNamedEntitySpawnConstructor;
         this.entityPlayerClass = entityPlayerClass;
         this.packetPlayOutPlayerListHeaderFooterConstructor = packetPlayOutPlayerListHeaderFooterConstructor;
-
-        this.packetPlayOutPlayerListHeaderFooterHeaderField = packetPlayOutPlayerListHeaderFooterHeaderField;
-        this.packetPlayOutPlayerListHeaderFooterFooterField = packetPlayOutPlayerListHeaderFooterFooterField;
 
         this.chatSerializerSerialize = chatSerializerSerialize;
     }
@@ -152,18 +140,11 @@ public final class $v1_17_R1PacketFactory implements PacketFactory {
 
     @Override
     public Object createPacketPlayOutPlayerListHeaderFooter(String header, String footer) {
-        Object headerComponent = createChatComponent(header);
         try {
-            Object packet = packetPlayOutPlayerListHeaderFooterConstructor.newInstance();
-
-            packetPlayOutPlayerListHeaderFooterHeaderField.set(packet, headerComponent);
-
-            if (footer != null) {
-                Object footerComponent = createChatComponent(footer);
-                packetPlayOutPlayerListHeaderFooterFooterField.set(packet, footerComponent);
-            }
-
-            return packet;
+            return packetPlayOutPlayerListHeaderFooterConstructor.newInstance(
+                    createChatComponent(header),
+                    createChatComponent(footer)
+            );
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
